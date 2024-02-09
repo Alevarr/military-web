@@ -6,7 +6,14 @@ const config: ThemeConfig = {
   };
 
 const theme = extendTheme({
-    config
+    config,
+    components: {
+        Button: {
+            defaultProps: {
+                colorScheme: 'teal'
+            }
+        }
+    }
 })
 
 export default theme
