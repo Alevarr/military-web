@@ -10,11 +10,14 @@ import {
   Skeleton,
   useToast,
   Show,
+  Heading,
 } from "@chakra-ui/react";
-import useCitizens, { Citizen } from "../hooks/useCitizens";
+import useCitizens from "../hooks/useCitizens";
 import { Link } from "react-router-dom";
 import { ViewIcon } from "@chakra-ui/icons";
 import AddCitizenButton from "../components/AddCitizenButton";
+import FeasibilityBadge from "../components/FeasibilityBadge";
+import { Citizen } from "../types";
 
 const skeletons = Array.from({ length: 7 }, (_, index) => index + 1);
 
@@ -29,7 +32,7 @@ export default function CitizensPage() {
       status: "error",
       isClosable: true,
     });
-    return <h1>Ошибка получения данных...</h1>;
+    return <Heading size="md">Ошибка получения данных...</Heading>;
   }
 
   return (
@@ -82,7 +85,11 @@ export default function CitizensPage() {
                     {last_name} {first_name} {middle_name}
                   </Td>
                   <Show above="md">
-                    <Td>{feasibility_category}</Td>
+                    <Td>
+                      <FeasibilityBadge
+                        feasibilityCategory={feasibility_category}
+                      />
+                    </Td>
                     <Td>
                       {deferment_end_date
                         ? new Date(deferment_end_date).toLocaleDateString()
