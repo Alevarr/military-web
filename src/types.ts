@@ -27,6 +27,12 @@ export type Record = {
   department: Department;
 };
 
+export type Action = {
+  id: number;
+  type: "add" | "edit" | "delete";
+  user_email: string;
+};
+
 export type CitizenFull = {
   id: number;
   first_name: string;
@@ -37,4 +43,5 @@ export type CitizenFull = {
   deferment_end_date?: string;
   militaries: Military[];
   records: Record[];
+  actions: Action[];
 };
