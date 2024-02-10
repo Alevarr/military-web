@@ -15,7 +15,12 @@ export default function FeasibilityBadge({
   feasibilityCategory: Citizen["feasibility_category"];
 }) {
   return (
-    <Badge colorScheme={colorMap[feasibilityCategory]} py={1} px={4}>
+    <Badge
+      colorScheme={colorMap[feasibilityCategory]}
+      py={1}
+      px={4}
+      borderRadius={4}
+    >
       {feasibilityCategory}
     </Badge>
   );

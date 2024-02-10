@@ -1,3 +1,23 @@
+import { z } from "zod";
+
+export const CitizenSchema = z.object({
+  last_name: z.string().min(1, { message: "Фамилия обязательна к заполнению" }),
+  first_name: z.string().min(1, { message: "Имя обязательно к заполнению" }),
+  middle_name: z.string().optional(),
+  passport: z
+    .string()
+    .regex(/^\d{10}$/, {
+      message: "Паспорт должен состоять из 10 цифр",
+    })
+    .min(1, { message: "Паспорт обязателен к заполненнию" }),
+  feasibility_category: z
+    .string()
+    .min(1, { message: "Категория здоровья обязательна к заполнению" }),
+  deferment_end_date: z.date().optional(),
+});
+
+export type CitizenFormValues = z.infer<typeof CitizenSchema>;
+
 export type Citizen = {
   id: number;
   first_name: string;
