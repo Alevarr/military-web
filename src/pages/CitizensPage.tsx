@@ -1,3 +1,114 @@
+import {
+  TableContainer,
+  Table,
+  Thead,
+  Tr,
+  Th,
+  Tbody,
+  Td,
+  IconButton,
+  Skeleton,
+  useToast,
+  Show,
+} from "@chakra-ui/react";
+import useCitizens, { Citizen } from "../hooks/useCitizens";
+import { Link } from "react-router-dom";
+import { ViewIcon } from "@chakra-ui/icons";
+import AddCitizenButton from "../components/AddCitizenButton";
+
+const skeletons = Array.from({ length: 7 }, (_, index) => index + 1);
+
 export default function CitizensPage() {
-  return <h1>Aboba citizens</h1>;
+  const { data, isLoading, error } = useCitizens();
+  const toast = useToast();
+
+  if (error) {
+    toast({
+      position: "bottom-right",
+      title: "Не удалось получить данные",
+      status: "error",
+      isClosable: true,
+    });
+    return <h1>Ошибка получения данных...</h1>;
+  }
+
+  return (
+    <>
+      <TableContainer>
+        <Table variant="simple">
+          <Thead>
+            <Tr>
+              <Th>ФИО</Th>
+              <Show above="md">
+                <Th>Категория годности</Th>
+                <Th>Дата окончания отсрочки</Th>
+              </Show>
+              <Th>Действия</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {isLoading &&
+              skeletons.map((skeleton) => (
+                <Tr key={skeleton}>
+                  <Td>
+                    <Skeleton w="100%" h="20px" />
+                  </Td>
+
+                  <Show above="md">
+                    <Td>
+                      <Skeleton w="100%" h="20px" />
+                    </Td>
+                    <Td>
+                      <Skeleton w="100%" h="20px" />
+                    </Td>
+                  </Show>
+
+                  <Td>
+                    <Skeleton w="100%" h="20px" />
+                  </Td>
+                </Tr>
+              ))}
+            {data?.map(
+              ({
+                id,
+                first_name,
+                middle_name,
+                last_name,
+                feasibility_category,
+                deferment_end_date,
+              }: Citizen) => (
+                <Tr key={id}>
+                  <Td>
+                    {last_name} {first_name} {middle_name}
+                  </Td>
+                  <Show above="md">
+                    <Td>{feasibility_category}</Td>
+                    <Td>
+                      {deferment_end_date
+                        ? new Date(deferment_end_date).toLocaleDateString()
+                        : "Нет"}
+                    </Td>
+                  </Show>
+                  <Td>
+                    <Link to={`/citizens/${id}`}>
+                      <IconButton
+                        aria-label="View the citizen"
+                        icon={<ViewIcon />}
+                        variant="ghost"
+                      />
+                    </Link>
+                  </Td>
+                </Tr>
+              )
+            )}
+          </Tbody>
+        </Table>
+      </TableContainer>
+      {isLoading ? (
+        <Skeleton width="128px" height="40px" mt={4} />
+      ) : (
+        <AddCitizenButton mt={4} />
+      )}
+    </>
+  );
 }

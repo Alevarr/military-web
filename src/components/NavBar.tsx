@@ -6,7 +6,8 @@ export default function NavBar() {
     <HStack
       borderBottomWidth={2}
       borderColor="gray.200"
-      p={6}
+      py={6}
+      px={12}
       alignItems="center"
       gap={4}
     >
