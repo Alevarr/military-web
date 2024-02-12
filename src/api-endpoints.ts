@@ -7,4 +7,7 @@ export const API_ENDPOINTS = {
 
   /** @POST Authorize with email and password */
   AUTH: "/api/auth",
+
+  /** @POST Create new citizen */
+  CREATE_CITIZEN: "/api/citizens",
 };

@@ -15,13 +15,21 @@ import {
   VStack,
   useDisclosure,
   Box,
+  useToast,
 } from "@chakra-ui/react";
 import { Controller, useForm } from "react-hook-form";
 import { CitizenFormValues, CitizenSchema } from "../types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SingleDatepicker } from "chakra-dayzed-datepicker";
+import { API_ENDPOINTS } from "../api-endpoints";
+import { fetcher } from "../utils/fetcher";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function AddCitizenButton({ ...props }: ButtonProps) {
+  const toast = useToast();
+
+  const queryClient = useQueryClient();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     control,
@@ -30,10 +38,28 @@ export default function AddCitizenButton({ ...props }: ButtonProps) {
     formState: { errors },
   } = useForm<CitizenFormValues>({ resolver: zodResolver(CitizenSchema) });
 
-  const onSubmit = (data: CitizenFormValues) => {
-    console.log(data);
-    // Handle form submission here
+  const onSubmit = async (data: CitizenFormValues) => {
+    if (data.middle_name === "") data.middle_name = undefined;
+    const url = import.meta.env.VITE_API_URL + API_ENDPOINTS.CREATE_CITIZEN;
+    const res = await fetcher(url, {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
     onClose();
+    if (!res.ok)
+      return toast({
+        position: "bottom-right",
+        title: "Ошибка при выполнении запроса",
+        status: "error",
+        isClosable: true,
+      });
+    toast({
+      position: "bottom-right",
+      title: "Запрос выполнен успешно",
+      status: "success",
+      isClosable: true,
+    });
+    queryClient.invalidateQueries({ queryKey: ["citizens"] });
   };
 
   return (
@@ -79,11 +105,7 @@ export default function AddCitizenButton({ ...props }: ButtonProps) {
                 </FormControl>
                 <FormControl id="middle_name" isInvalid={!!errors.middle_name}>
                   <FormLabel htmlFor="middle_name">Отчество</FormLabel>
-                  <Input
-                    {...register("middle_name", {
-                      required: "This is required",
-                    })}
-                  />
+                  <Input {...register("middle_name")} />
                   {errors.middle_name && (
                     <Box color="red">{errors.middle_name.message}</Box>
                   )}

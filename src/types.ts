@@ -74,6 +74,7 @@ export type CitizenFull = {
 };
 
 export type User = {
+  id: number;
   email: string;
   role: "viewer" | "editor";
 };
