@@ -25,6 +25,17 @@ export const SingInSchema = z.object({
 
 export type SignInFormValues = z.infer<typeof SingInSchema>;
 
+export const MilitarySchema = z.object({
+  military_serial: z
+    .string()
+    .regex(/^[А-Я]{2}\d{7}$/, { message: "Неверный формат" })
+    .min(1, { message: "Поле обязательно к заполнению" }),
+  comment: z.string().optional(),
+  release_date: z.date(),
+});
+
+export type MilitaryFormValues = z.infer<typeof MilitarySchema>;
+
 export type Citizen = {
   id: number;
   first_name: string;
@@ -49,6 +60,7 @@ export type Department = {
 };
 
 export type Record = {
+  id: number;
   type: "registered" | "removed";
   date: string;
   department: Department;

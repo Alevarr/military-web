@@ -24,10 +24,12 @@ import FeasibilityBadge from "../components/FeasibilityBadge";
 import MilitaryCard from "../components/MilitaryCard";
 import RecordCard from "../components/RecordCard";
 import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import useUser from "../hooks/useUser";
+import AddMilitary from "../components/AddMilitary";
 
 const actionsMap = {
   add: <ListIcon as={AddIcon} color="green" />,
-  edit: <ListIcon as={EditIcon} color="yellow" />,
+  edit: <ListIcon as={EditIcon} color="yellow.500" />,
   delete: <ListIcon as={DeleteIcon} color="red" />,
 };
 
@@ -36,6 +38,10 @@ export default function CitizenDetailsPage() {
   const toast = useToast();
 
   const { data, isLoading, error } = useCitizen(id!);
+
+  console.log(data);
+
+  const user = useUser();
 
   if (isLoading) return <Spinner color="teal" />;
 
@@ -105,10 +111,11 @@ export default function CitizenDetailsPage() {
         >
           <Heading size="md">Приписные свидетельства:</Heading>
           <Flex gap={2} flexWrap="wrap">
-            {data?.militaries.map((military) => (
-              <MilitaryCard military={military} />
-            ))}
+            {data?.militaries.map(
+              (military) => military.id && <MilitaryCard military={military} />
+            )}
           </Flex>
+          {user?.role === "editor" && <AddMilitary citizen_id={Number(id)} />}
         </VStack>
         <VStack
           alignItems="flex-start"
@@ -118,9 +125,9 @@ export default function CitizenDetailsPage() {
         >
           <Heading size="md">История учета:</Heading>
           <Flex gap={2} flexWrap="wrap" flex="1">
-            {data?.records.map((record) => (
-              <RecordCard record={record} />
-            ))}
+            {data?.records.map(
+              (record) => record.id && <RecordCard record={record} />
+            )}
           </Flex>
         </VStack>
       </HStack>

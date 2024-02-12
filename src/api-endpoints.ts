@@ -10,4 +10,7 @@ export const API_ENDPOINTS = {
 
   /** @POST Create new citizen */
   CREATE_CITIZEN: "/api/citizens",
+
+  /** @POST Create new military */
+  CREATE_MILITARY: "/api/militaries",
 };

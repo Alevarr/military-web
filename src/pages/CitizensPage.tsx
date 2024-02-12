@@ -15,7 +15,7 @@ import {
 import useCitizens from "../hooks/useCitizens";
 import { Link } from "react-router-dom";
 import { ViewIcon } from "@chakra-ui/icons";
-import AddCitizenButton from "../components/AddCitizenButton";
+import AddCitizen from "../components/AddCitizen";
 import FeasibilityBadge from "../components/FeasibilityBadge";
 import { Citizen } from "../types";
 import useUser from "../hooks/useUser";
@@ -117,7 +117,7 @@ export default function CitizensPage() {
       {isLoading ? (
         <Skeleton width="128px" height="40px" mt={4} />
       ) : (
-        user?.role == "editor" && <AddCitizenButton mt={4} />
+        user?.role == "editor" && <AddCitizen mt={4} />
       )}
     </>
   );

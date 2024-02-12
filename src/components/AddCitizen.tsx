@@ -1,4 +1,3 @@
-import { AddIcon } from "@chakra-ui/icons";
 import {
   Button,
   ButtonProps,
@@ -24,8 +23,9 @@ import { SingleDatepicker } from "chakra-dayzed-datepicker";
 import { API_ENDPOINTS } from "../api-endpoints";
 import { fetcher } from "../utils/fetcher";
 import { useQueryClient } from "@tanstack/react-query";
+import AddButton from "./AddButton";
 
-export default function AddCitizenButton({ ...props }: ButtonProps) {
+export default function AddCitizen({ ...props }: ButtonProps) {
   const toast = useToast();
 
   const queryClient = useQueryClient();
@@ -64,9 +64,9 @@ export default function AddCitizenButton({ ...props }: ButtonProps) {
 
   return (
     <>
-      <Button leftIcon={<AddIcon />} {...props} onClick={onOpen}>
+      <AddButton {...props} onClick={onOpen}>
         Добавить
-      </Button>
+      </AddButton>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>

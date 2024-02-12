@@ -21,7 +21,7 @@ const useAutoCheckTokenExpiration = (expireCallback: () => void) => {
 
     checkTokenExpiration();
 
-    const intervalId = setInterval(checkTokenExpiration, 60 * 1000);
+    const intervalId = setInterval(checkTokenExpiration, 20 * 1000);
 
     return () => clearInterval(intervalId);
   }, [expireCallback]);
