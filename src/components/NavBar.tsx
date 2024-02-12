@@ -1,7 +1,20 @@
-import { Button, HStack } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import {
+  Avatar,
+  Button,
+  HStack,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+} from "@chakra-ui/react";
+import { Link, useNavigate } from "react-router-dom";
+import useUser from "../hooks/useUser";
+import Cookies from "js-cookie";
 
 export default function NavBar() {
+  const user = useUser();
+  const navigate = useNavigate();
+
   return (
     <HStack
       borderBottomWidth={2}
@@ -24,9 +37,25 @@ export default function NavBar() {
           </Button>
         </Link>
       </HStack>
-      <Link to="/sign-in">
-        <Button variant="ghost">Войти</Button>
-      </Link>
+      {user ? (
+        <Menu>
+          <MenuButton as={Avatar} bg="teal.500" cursor="pointer" />
+          <MenuList>
+            <MenuItem
+              onClick={() => {
+                Cookies.remove("token");
+                navigate("/sign-in");
+              }}
+            >
+              Выйти
+            </MenuItem>
+          </MenuList>
+        </Menu>
+      ) : (
+        <Link to="/sign-in">
+          <Button variant="ghost">Войти</Button>
+        </Link>
+      )}
     </HStack>
   );
 }
