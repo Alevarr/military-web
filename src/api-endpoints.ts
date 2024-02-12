@@ -17,12 +17,15 @@ export const API_ENDPOINTS = {
   /** @POST Create new military */
   CREATE_MILITARY: "/api/militaries",
 
-  /** @POST Create new military */
+  /** @POST Create new record */
   CREATE_RECORD: "/api/records",
 
-  /** @PUT Get specific citizen by id */
+  /** @PUT Edit citizen by id */
   EDIT_CITIZEN: (id: string) => `/api/citizens/${id}`,
 
-  /** @PUT Get specific citizen by id */
+  /** @PUT Edit military by id*/
   EDIT_MILITARY: (id: string) => `/api/militaries/${id}`,
+
+  /** @PUT Edit record by id*/
+  EDIT_RECORD: (id: string) => `/api/records/${id}`,
 };

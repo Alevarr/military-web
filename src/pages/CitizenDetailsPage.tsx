@@ -141,7 +141,14 @@ export default function CitizenDetailsPage() {
           <Flex gap={2} flexWrap="wrap" flex="1">
             {data?.records.map(
               (record) =>
-                record.id && <RecordCard record={record} key={record.id} />
+                record.id && (
+                  <RecordCard
+                    record={record}
+                    key={record.id}
+                    citizen_id={data.id.toString()}
+                    isEditable={user?.role === "editor"}
+                  />
+                )
             )}
           </Flex>
           {user?.role === "editor" && <AddRecord citizen={data!} />}
