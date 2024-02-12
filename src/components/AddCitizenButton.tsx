@@ -49,7 +49,11 @@ export default function AddCitizenButton({ ...props }: ButtonProps) {
           <ModalBody>
             <form onSubmit={handleSubmit(onSubmit)}>
               <VStack spacing={4}>
-                <FormControl id="last_name" isInvalid={!!errors.last_name}>
+                <FormControl
+                  id="last_name"
+                  isInvalid={!!errors.last_name}
+                  isRequired
+                >
                   <FormLabel htmlFor="last_name">Фамилия</FormLabel>
                   <Input
                     {...register("last_name", { required: "This is required" })}
@@ -58,7 +62,11 @@ export default function AddCitizenButton({ ...props }: ButtonProps) {
                     <Box color="red">{errors.last_name.message}</Box>
                   )}
                 </FormControl>
-                <FormControl id="first_name" isInvalid={!!errors.first_name}>
+                <FormControl
+                  id="first_name"
+                  isInvalid={!!errors.first_name}
+                  isRequired
+                >
                   <FormLabel htmlFor="first_name">Имя</FormLabel>
                   <Input
                     {...register("first_name", {
@@ -80,7 +88,11 @@ export default function AddCitizenButton({ ...props }: ButtonProps) {
                     <Box color="red">{errors.middle_name.message}</Box>
                   )}
                 </FormControl>
-                <FormControl id="passport" isInvalid={!!errors.passport}>
+                <FormControl
+                  id="passport"
+                  isInvalid={!!errors.passport}
+                  isRequired
+                >
                   <FormLabel htmlFor="passport">
                     Паспорт (серия, номер):
                   </FormLabel>
@@ -98,6 +110,7 @@ export default function AddCitizenButton({ ...props }: ButtonProps) {
                 <FormControl
                   id="feasibility_category"
                   isInvalid={!!errors.feasibility_category}
+                  isRequired
                 >
                   <FormLabel htmlFor="feasibility_category">
                     Категория здоровья
@@ -116,6 +129,7 @@ export default function AddCitizenButton({ ...props }: ButtonProps) {
                 <FormControl
                   id="deferement_end_date"
                   isInvalid={!!errors.deferment_end_date}
+                  isRequired
                 >
                   <FormLabel htmlFor="deferement_end_date">
                     Дата окончания отсрочки
@@ -134,9 +148,7 @@ export default function AddCitizenButton({ ...props }: ButtonProps) {
                     )}
                   />
                 </FormControl>
-                <Button type="submit" colorScheme="blue">
-                  Готово
-                </Button>
+                <Button type="submit">Готово</Button>
               </VStack>
             </form>
           </ModalBody>

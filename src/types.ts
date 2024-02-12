@@ -18,6 +18,13 @@ export const CitizenSchema = z.object({
 
 export type CitizenFormValues = z.infer<typeof CitizenSchema>;
 
+export const SingInSchema = z.object({
+  email: z.string().min(1, { message: "Поле обязательно к заполнению" }),
+  password: z.string().min(1, { message: "Поле обязательно к заполнению" }),
+});
+
+export type SignInFormValues = z.infer<typeof SingInSchema>;
+
 export type Citizen = {
   id: number;
   first_name: string;

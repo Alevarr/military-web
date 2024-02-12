@@ -5,6 +5,7 @@ import Layout from "./pages/Layout";
 import DepartmentsPage from "./pages/DepartmentsPage";
 import CitizensPage from "./pages/CitizensPage";
 import CitizenDetailsPage from "./pages/CitizenDetailsPage";
+import SignInPage from "./pages/SignInPage";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
       },
       { path: "citizens/:id", element: <CitizenDetailsPage /> },
       { path: "departments", element: <DepartmentsPage /> },
+      { path: "sign-in", element: <SignInPage /> },
     ],
   },
 ]);
