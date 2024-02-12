@@ -27,6 +27,7 @@ import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import useUser from "../hooks/useUser";
 import AddMilitary from "../components/AddMilitary";
 import AddRecord from "../components/AddRecord";
+import EditCitizen from "../components/EditCitizen";
 
 const actionsMap = {
   add: <ListIcon as={AddIcon} color="green" />,
@@ -54,12 +55,15 @@ export default function CitizenDetailsPage() {
     return <Heading size="md">Ошибка получения данных...</Heading>;
   }
   return (
-    <VStack alignItems="flex-start" gap={8}>
-      <HStack justifyContent="start" alignItems="center">
-        <Heading>
-          {data?.last_name} {data?.first_name} {data?.middle_name}
-        </Heading>
-        <FeasibilityBadge feasibilityCategory={data!.feasibility_category} />
+    <VStack alignItems="flex-start">
+      <HStack justifyContent="space-between" alignItems="center" w="100%">
+        <HStack gap={4}>
+          <Heading>
+            {data?.last_name} {data?.first_name} {data?.middle_name}
+          </Heading>
+          <FeasibilityBadge feasibilityCategory={data!.feasibility_category} />
+        </HStack>
+        {user?.role === "editor" && <EditCitizen citizen_id={Number(id)} />}
       </HStack>
       <Box>
         <Text>

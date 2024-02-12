@@ -17,15 +17,22 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { Controller, useForm } from "react-hook-form";
-import { CitizenFormValues, CitizenSchema } from "../types";
+import {
+  CitizenFormValues,
+  CitizenSchema,
+  EditCitizenModalProps,
+} from "../types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SingleDatepicker } from "chakra-dayzed-datepicker";
 import { API_ENDPOINTS } from "../api-endpoints";
 import { fetcher } from "../utils/fetcher";
 import { useQueryClient } from "@tanstack/react-query";
-import AddButton from "./AddButton";
+import { EditIcon } from "@chakra-ui/icons";
 
-export default function AddCitizen({ ...props }: ButtonProps) {
+export default function EditCitizen({
+  citizen_id,
+  ...props
+}: EditCitizenModalProps) {
   const toast = useToast();
 
   const queryClient = useQueryClient();
@@ -40,9 +47,11 @@ export default function AddCitizen({ ...props }: ButtonProps) {
 
   const onSubmit = async (data: CitizenFormValues) => {
     if (data.middle_name === "") data.middle_name = undefined;
-    const url = import.meta.env.VITE_API_URL + API_ENDPOINTS.CREATE_CITIZEN;
+    const url =
+      import.meta.env.VITE_API_URL +
+      API_ENDPOINTS.EDIT_CITIZEN(citizen_id.toString());
     const res = await fetcher(url, {
-      method: "POST",
+      method: "PUT",
       body: JSON.stringify(data),
     });
     onClose();
@@ -59,12 +68,16 @@ export default function AddCitizen({ ...props }: ButtonProps) {
       status: "success",
       isClosable: true,
     });
-    queryClient.invalidateQueries({ queryKey: ["citizens"] });
+    queryClient.invalidateQueries({
+      queryKey: ["citizen", citizen_id.toString()],
+    });
   };
 
   return (
     <>
-      <AddButton {...props} onClick={onOpen} />
+      <Button {...props} onClick={onOpen} leftIcon={<EditIcon />}>
+        Изменить
+      </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>

@@ -97,9 +97,7 @@ export default function AddRecord({
 
   return (
     <>
-      <AddButton {...props} onClick={onOpen}>
-        Добавить
-      </AddButton>
+      <AddButton {...props} onClick={onOpen} />
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>

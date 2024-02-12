@@ -19,4 +19,7 @@ export const API_ENDPOINTS = {
 
   /** @POST Create new military */
   CREATE_RECORD: "/api/records",
+
+  /** @PUT Get specific citizen by id */
+  EDIT_CITIZEN: (id: string) => `/api/citizens/${id}`,
 };

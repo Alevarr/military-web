@@ -1,6 +1,5 @@
 import {
   Button,
-  ButtonProps,
   FormControl,
   FormLabel,
   Input,
@@ -74,9 +73,7 @@ export default function AddMilitary({
 
   return (
     <>
-      <AddButton {...props} onClick={onOpen}>
-        Добавить
-      </AddButton>
+      <AddButton {...props} onClick={onOpen} />
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
