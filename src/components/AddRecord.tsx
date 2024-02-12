@@ -32,7 +32,7 @@ import useDepartments from "../hooks/useDepartments";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
 export default function AddRecord({
-  citizen_id,
+  citizen,
   ...props
 }: EditCitizenModalProps) {
   const toast = useToast();
@@ -52,7 +52,7 @@ export default function AddRecord({
   const onSubmit = async (data: RecordFormValues) => {
     const extendedData = {
       ...data,
-      citizen_id: citizen_id,
+      citizen_id: citizen.id,
       department_id: Number(data.department_id),
     };
 
@@ -76,7 +76,7 @@ export default function AddRecord({
       isClosable: true,
     });
     queryClient.invalidateQueries({
-      queryKey: ["citizen", citizen_id.toString()],
+      queryKey: ["citizen", citizen.id.toString()],
     });
   };
 

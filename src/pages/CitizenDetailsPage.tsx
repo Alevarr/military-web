@@ -63,7 +63,7 @@ export default function CitizenDetailsPage() {
           </Heading>
           <FeasibilityBadge feasibilityCategory={data!.feasibility_category} />
         </HStack>
-        {user?.role === "editor" && <EditCitizen citizen_id={Number(id)} />}
+        {user?.role === "editor" && <EditCitizen citizen={data!} />}
       </HStack>
       <Box>
         <Text>
@@ -112,13 +112,22 @@ export default function CitizenDetailsPage() {
           justifyContent="flex-start"
           gap={8}
         >
-          <Heading size="md">Приписные свидетельства:</Heading>
+          <Heading size="md" mt={4} ml={2}>
+            Приписные свидетельства:
+          </Heading>
           <Flex gap={2} flexWrap="wrap">
             {data?.militaries.map(
-              (military) => military.id && <MilitaryCard military={military} />
+              (military) =>
+                military.id && (
+                  <MilitaryCard
+                    military={military}
+                    isEditable={user?.role === "editor"}
+                    key={military.id}
+                  />
+                )
             )}
           </Flex>
-          {user?.role === "editor" && <AddMilitary citizen_id={Number(id)} />}
+          {user?.role === "editor" && <AddMilitary citizen={data!} />}
         </VStack>
         <VStack
           alignItems="flex-start"
@@ -126,13 +135,16 @@ export default function CitizenDetailsPage() {
           justifyContent="flex-start"
           gap={8}
         >
-          <Heading size="md">История учета:</Heading>
+          <Heading size="md" mt={4} ml={2}>
+            История учета:
+          </Heading>
           <Flex gap={2} flexWrap="wrap" flex="1">
             {data?.records.map(
-              (record) => record.id && <RecordCard record={record} />
+              (record) =>
+                record.id && <RecordCard record={record} key={record.id} />
             )}
           </Flex>
-          {user?.role === "editor" && <AddRecord citizen_id={Number(id)} />}
+          {user?.role === "editor" && <AddRecord citizen={data!} />}
         </VStack>
       </HStack>
     </VStack>

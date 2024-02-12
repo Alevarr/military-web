@@ -13,24 +13,22 @@ import {
   useDisclosure,
   Box,
   useToast,
+  ButtonProps,
 } from "@chakra-ui/react";
 import { Controller, useForm } from "react-hook-form";
-import {
-  EditCitizenModalProps,
-  MilitaryFormValues,
-  MilitarySchema,
-} from "../types";
+import { Military, MilitaryFormValues, MilitarySchema } from "../types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SingleDatepicker } from "chakra-dayzed-datepicker";
 import { API_ENDPOINTS } from "../api-endpoints";
 import { fetcher } from "../utils/fetcher";
 import { useQueryClient } from "@tanstack/react-query";
-import AddButton from "./AddButton";
+import EditButton from "./EditButton";
 
-export default function AddMilitary({
-  citizen,
-  ...props
-}: EditCitizenModalProps) {
+interface Props extends ButtonProps {
+  military: Military;
+}
+
+export default function EditMilitary({ military, ...props }: Props) {
   const toast = useToast();
 
   const queryClient = useQueryClient();
@@ -41,15 +39,24 @@ export default function AddMilitary({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<MilitaryFormValues>({ resolver: zodResolver(MilitarySchema) });
+  } = useForm<MilitaryFormValues>({
+    defaultValues: {
+      military_serial: military.military_serial,
+      comment: military.comment,
+      release_date: new Date(military.release_date),
+    },
+    resolver: zodResolver(MilitarySchema),
+  });
 
   const onSubmit = async (data: MilitaryFormValues) => {
     if (data.comment === "") data.comment = undefined;
-    const extendedData = { ...data, citizen_id: citizen.id };
-    const url = import.meta.env.VITE_API_URL + API_ENDPOINTS.CREATE_MILITARY;
+    const url =
+      import.meta.env.VITE_API_URL +
+      API_ENDPOINTS.EDIT_MILITARY(military.id.toString());
+
     const res = await fetcher(url, {
-      method: "POST",
-      body: JSON.stringify(extendedData),
+      method: "PUT",
+      body: JSON.stringify(data),
     });
     onClose();
     if (!res.ok)
@@ -66,18 +73,19 @@ export default function AddMilitary({
       status: "success",
       isClosable: true,
     });
+    const responseData: Military = await res.json();
     queryClient.invalidateQueries({
-      queryKey: ["citizen", citizen.id.toString()],
+      queryKey: ["citizen", responseData.citizen_id.toString()],
     });
   };
 
   return (
     <>
-      <AddButton {...props} onClick={onOpen} />
+      <EditButton {...props} onClick={onOpen} />
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Добавить Приписное</ModalHeader>
+          <ModalHeader>Редактировать Приписное</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <form onSubmit={handleSubmit(onSubmit)}>

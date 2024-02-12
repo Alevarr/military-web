@@ -52,6 +52,7 @@ export type Military = {
   release_date: string;
   military_serial: string;
   comment?: string;
+  citizen_id: number;
 };
 
 export const RecordSchema = z.object({
@@ -103,5 +104,5 @@ export type User = {
 };
 
 export interface EditCitizenModalProps extends ButtonProps {
-  citizen_id: number;
+  citizen: CitizenFull;
 }

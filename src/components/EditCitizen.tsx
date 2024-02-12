@@ -1,6 +1,5 @@
 import {
   Button,
-  ButtonProps,
   FormControl,
   FormLabel,
   Input,
@@ -30,7 +29,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { EditIcon } from "@chakra-ui/icons";
 
 export default function EditCitizen({
-  citizen_id,
+  citizen,
   ...props
 }: EditCitizenModalProps) {
   const toast = useToast();
@@ -43,13 +42,25 @@ export default function EditCitizen({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<CitizenFormValues>({ resolver: zodResolver(CitizenSchema) });
+  } = useForm<CitizenFormValues>({
+    defaultValues: {
+      last_name: citizen.last_name,
+      first_name: citizen.first_name,
+      middle_name: citizen.middle_name,
+      feasibility_category: citizen.feasibility_category,
+      passport: citizen.passport,
+      deferment_end_date: citizen.deferment_end_date
+        ? new Date(citizen.deferment_end_date)
+        : undefined,
+    },
+    resolver: zodResolver(CitizenSchema),
+  });
 
   const onSubmit = async (data: CitizenFormValues) => {
     if (data.middle_name === "") data.middle_name = undefined;
     const url =
       import.meta.env.VITE_API_URL +
-      API_ENDPOINTS.EDIT_CITIZEN(citizen_id.toString());
+      API_ENDPOINTS.EDIT_CITIZEN(citizen.id.toString());
     const res = await fetcher(url, {
       method: "PUT",
       body: JSON.stringify(data),
@@ -69,7 +80,7 @@ export default function EditCitizen({
       isClosable: true,
     });
     queryClient.invalidateQueries({
-      queryKey: ["citizen", citizen_id.toString()],
+      queryKey: ["citizen", citizen.id.toString()],
     });
   };
 

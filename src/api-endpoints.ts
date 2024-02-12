@@ -22,4 +22,7 @@ export const API_ENDPOINTS = {
 
   /** @PUT Get specific citizen by id */
   EDIT_CITIZEN: (id: string) => `/api/citizens/${id}`,
+
+  /** @PUT Get specific citizen by id */
+  EDIT_MILITARY: (id: string) => `/api/militaries/${id}`,
 };
