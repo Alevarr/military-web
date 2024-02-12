@@ -13,8 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { Department } from "../types";
 import useDepartments from "../hooks/useDepartments";
-
-const skeletons = Array.from({ length: 7 }, (_, index) => index + 1);
+import { skeletons } from "../utils/skeletons";
 
 export default function DepartmentsPage() {
   const { data, isLoading, error } = useDepartments();

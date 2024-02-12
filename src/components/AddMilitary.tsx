@@ -16,7 +16,11 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { Controller, useForm } from "react-hook-form";
-import { MilitaryFormValues, MilitarySchema } from "../types";
+import {
+  EditCitizenModalProps,
+  MilitaryFormValues,
+  MilitarySchema,
+} from "../types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SingleDatepicker } from "chakra-dayzed-datepicker";
 import { API_ENDPOINTS } from "../api-endpoints";
@@ -24,11 +28,10 @@ import { fetcher } from "../utils/fetcher";
 import { useQueryClient } from "@tanstack/react-query";
 import AddButton from "./AddButton";
 
-interface Props extends ButtonProps {
-  citizen_id: number;
-}
-
-export default function AddMilitary({ citizen_id, ...props }: Props) {
+export default function AddMilitary({
+  citizen_id,
+  ...props
+}: EditCitizenModalProps) {
   const toast = useToast();
 
   const queryClient = useQueryClient();

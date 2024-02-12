@@ -1,3 +1,4 @@
+import { ButtonProps } from "@chakra-ui/react";
 import { z } from "zod";
 
 export const CitizenSchema = z.object({
@@ -53,6 +54,16 @@ export type Military = {
   comment?: string;
 };
 
+export const RecordSchema = z.object({
+  type: z.enum(["registered", "removed"]),
+  department_id: z
+    .string()
+    .min(1, { message: "Поле обязательно к заполнению" }),
+  date: z.date(),
+});
+
+export type RecordFormValues = z.infer<typeof RecordSchema>;
+
 export type Department = {
   id: number;
   name: string;
@@ -90,3 +101,7 @@ export type User = {
   email: string;
   role: "viewer" | "editor";
 };
+
+export interface EditCitizenModalProps extends ButtonProps {
+  citizen_id: number;
+}

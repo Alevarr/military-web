@@ -26,6 +26,7 @@ import RecordCard from "../components/RecordCard";
 import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import useUser from "../hooks/useUser";
 import AddMilitary from "../components/AddMilitary";
+import AddRecord from "../components/AddRecord";
 
 const actionsMap = {
   add: <ListIcon as={AddIcon} color="green" />,
@@ -38,8 +39,6 @@ export default function CitizenDetailsPage() {
   const toast = useToast();
 
   const { data, isLoading, error } = useCitizen(id!);
-
-  console.log(data);
 
   const user = useUser();
 
@@ -129,6 +128,7 @@ export default function CitizenDetailsPage() {
               (record) => record.id && <RecordCard record={record} />
             )}
           </Flex>
+          {user?.role === "editor" && <AddRecord citizen_id={Number(id)} />}
         </VStack>
       </HStack>
     </VStack>

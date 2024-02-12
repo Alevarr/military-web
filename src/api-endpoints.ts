@@ -16,4 +16,7 @@ export const API_ENDPOINTS = {
 
   /** @POST Create new military */
   CREATE_MILITARY: "/api/militaries",
+
+  /** @POST Create new military */
+  CREATE_RECORD: "/api/records",
 };

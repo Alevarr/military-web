@@ -19,8 +19,7 @@ import AddCitizen from "../components/AddCitizen";
 import FeasibilityBadge from "../components/FeasibilityBadge";
 import { Citizen } from "../types";
 import useUser from "../hooks/useUser";
-
-const skeletons = Array.from({ length: 7 }, (_, index) => index + 1);
+import { skeletons } from "../utils/skeletons";
 
 export default function CitizensPage() {
   const { data, isLoading, error } = useCitizens();
