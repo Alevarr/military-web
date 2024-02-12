@@ -72,3 +72,8 @@ export type CitizenFull = {
   records: Record[];
   actions: Action[];
 };
+
+export type User = {
+  email: string;
+  role: "viewer" | "editor";
+};

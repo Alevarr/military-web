@@ -18,12 +18,15 @@ import { ViewIcon } from "@chakra-ui/icons";
 import AddCitizenButton from "../components/AddCitizenButton";
 import FeasibilityBadge from "../components/FeasibilityBadge";
 import { Citizen } from "../types";
+import useUser from "../hooks/useUser";
 
 const skeletons = Array.from({ length: 7 }, (_, index) => index + 1);
 
 export default function CitizensPage() {
   const { data, isLoading, error } = useCitizens();
   const toast = useToast();
+
+  const user = useUser();
 
   if (error) {
     toast({
@@ -114,7 +117,7 @@ export default function CitizensPage() {
       {isLoading ? (
         <Skeleton width="128px" height="40px" mt={4} />
       ) : (
-        <AddCitizenButton mt={4} />
+        user?.role == "editor" && <AddCitizenButton mt={4} />
       )}
     </>
   );

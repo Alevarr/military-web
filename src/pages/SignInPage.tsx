@@ -12,8 +12,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { SignInFormValues, SingInSchema } from "../types";
 import { API_ENDPOINTS } from "../api-endpoints";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 export default function SignInPage() {
+  const navigate = useNavigate();
   const toast = useToast();
   const {
     register,
@@ -22,7 +25,6 @@ export default function SignInPage() {
   } = useForm<SignInFormValues>({ resolver: zodResolver(SingInSchema) });
 
   const onSubmit = async (data: SignInFormValues) => {
-    console.log(data);
     const url = import.meta.env.VITE_API_URL + API_ENDPOINTS.AUTH;
     const res = await fetch(url, {
       headers: { "Content-Type": "application/json" },
@@ -47,6 +49,21 @@ export default function SignInPage() {
         });
       }
     }
+
+    toast({
+      position: "bottom-right",
+      title: `Успешная авторизация`,
+      status: "success",
+      isClosable: true,
+    });
+
+    const token = await res.text();
+
+    const now = new Date();
+    now.setMinutes(now.getMinutes() + 3);
+    Cookies.set("token", token, { expires: now });
+
+    navigate("/citizens");
   };
   return (
     <Center>
