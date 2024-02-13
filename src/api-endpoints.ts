@@ -28,4 +28,7 @@ export const API_ENDPOINTS = {
 
   /** @PUT Edit record by id*/
   EDIT_RECORD: (id: string) => `/api/records/${id}`,
+
+  /** @DELETE Edit record by id*/
+  DELETE_CITIZEN: (id: string) => `/api/citizens/${id}`,
 };

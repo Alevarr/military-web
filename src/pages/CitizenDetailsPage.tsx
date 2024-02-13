@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useCitizen from "../hooks/useCitizen";
 import {
   HStack,
@@ -28,6 +28,10 @@ import useUser from "../hooks/useUser";
 import AddMilitary from "../components/AddMilitary";
 import AddRecord from "../components/AddRecord";
 import EditCitizen from "../components/EditCitizen";
+import DeleteConfirm from "../components/DeleteConfirm";
+import { fetcher } from "../utils/fetcher";
+import { API_ENDPOINTS } from "../api-endpoints";
+import { useQueryClient } from "@tanstack/react-query";
 
 const actionsMap = {
   add: <ListIcon as={AddIcon} color="green" />,
@@ -36,6 +40,7 @@ const actionsMap = {
 };
 
 export default function CitizenDetailsPage() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const toast = useToast();
 
@@ -54,6 +59,9 @@ export default function CitizenDetailsPage() {
     });
     return <Heading size="md">Ошибка получения данных...</Heading>;
   }
+
+  const queryClient = useQueryClient();
+
   return (
     <VStack alignItems="flex-start">
       <HStack justifyContent="space-between" alignItems="center" w="100%">
@@ -63,7 +71,37 @@ export default function CitizenDetailsPage() {
           </Heading>
           <FeasibilityBadge feasibilityCategory={data!.feasibility_category} />
         </HStack>
-        {user?.role === "editor" && <EditCitizen citizen={data!} />}
+        {user?.role === "editor" && (
+          <HStack>
+            <EditCitizen citizen={data!} />
+            <DeleteConfirm
+              onConfirm={async () => {
+                const url =
+                  import.meta.env.VITE_API_URL +
+                  API_ENDPOINTS.DELETE_CITIZEN(id!);
+
+                const res = await fetcher(url, {
+                  method: "DELETE",
+                });
+                if (!res.ok)
+                  return toast({
+                    position: "bottom-right",
+                    title: "Ошибка при выполнении запроса",
+                    status: "error",
+                    isClosable: true,
+                  });
+                toast({
+                  position: "bottom-right",
+                  title: "Запрос выполнен успешно",
+                  status: "success",
+                  isClosable: true,
+                });
+                queryClient.invalidateQueries({ queryKey: ["citizens"] });
+                navigate("/citizens");
+              }}
+            />
+          </HStack>
+        )}
       </HStack>
       <Box>
         <Text>
