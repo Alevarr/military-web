@@ -40,6 +40,8 @@ const actionsMap = {
 };
 
 export default function CitizenDetailsPage() {
+  const queryClient = useQueryClient();
+
   const navigate = useNavigate();
   const { id } = useParams();
   const toast = useToast();
@@ -59,8 +61,6 @@ export default function CitizenDetailsPage() {
     });
     return <Heading size="md">Ошибка получения данных...</Heading>;
   }
-
-  const queryClient = useQueryClient();
 
   return (
     <VStack alignItems="flex-start">

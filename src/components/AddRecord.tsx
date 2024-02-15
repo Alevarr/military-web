@@ -128,7 +128,9 @@ export default function AddRecord({
                     }
                   >
                     {departments?.map((department) => (
-                      <option value={department.id}>{department.name}</option>
+                      <option key={department.id} value={department.id}>
+                        {department.name}
+                      </option>
                     ))}
                   </Select>
                   {errors.department_id && (

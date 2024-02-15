@@ -134,7 +134,9 @@ export default function EditRecord({ record, citizen_id, ...props }: Props) {
                     }
                   >
                     {departments?.map((department) => (
-                      <option value={department.id}>{department.name}</option>
+                      <option key={department.id} value={department.id}>
+                        {department.name}
+                      </option>
                     ))}
                   </Select>
                   {errors.department_id && (
