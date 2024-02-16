@@ -17,7 +17,7 @@ export default function FeasibilityBadge({
   return (
     <Badge
       colorScheme={colorMap[feasibilityCategory]}
-      py={1}
+      py={2}
       px={4}
       borderRadius={4}
     >

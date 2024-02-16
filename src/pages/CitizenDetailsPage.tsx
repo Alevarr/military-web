@@ -19,6 +19,7 @@ import {
   List,
   ListIcon,
   ListItem,
+  Stack,
 } from "@chakra-ui/react";
 import FeasibilityBadge from "../components/FeasibilityBadge";
 import MilitaryCard from "../components/MilitaryCard";
@@ -64,12 +65,18 @@ export default function CitizenDetailsPage() {
 
   return (
     <VStack alignItems="flex-start">
-      <HStack justifyContent="space-between" alignItems="center" w="100%">
-        <HStack gap={4}>
+      <Stack
+        justifyContent="space-between"
+        w="100%"
+        direction={{ base: "column", md: "row" }}
+      >
+        <HStack gap={4} alignItems="center">
           <Heading>
-            {data?.last_name} {data?.first_name} {data?.middle_name}
+            {data?.last_name} {data?.first_name} {data?.middle_name}{" "}
+            <FeasibilityBadge
+              feasibilityCategory={data!.feasibility_category}
+            />
           </Heading>
-          <FeasibilityBadge feasibilityCategory={data!.feasibility_category} />
         </HStack>
         {user?.role === "editor" && (
           <HStack>
@@ -102,7 +109,7 @@ export default function CitizenDetailsPage() {
             />
           </HStack>
         )}
-      </HStack>
+      </Stack>
       <Box>
         <Text>
           <b>Серия, номер паспорта: </b>
@@ -138,11 +145,13 @@ export default function CitizenDetailsPage() {
         </AccordionItem>
       </Accordion>
       <Divider borderColor="gray.300" />
-      <HStack
+      <Stack
         divider={<StackDivider borderColor="gray.300" />}
         justifyContent="stretch"
         alignItems="flex-start"
         w="100%"
+        direction={{ base: "column", md: "row" }}
+        gap={4}
       >
         <VStack
           alignItems="flex-start"
@@ -153,7 +162,7 @@ export default function CitizenDetailsPage() {
           <Heading size="md" mt={4} ml={2}>
             Приписные свидетельства:
           </Heading>
-          <Flex gap={2} flexWrap="wrap">
+          <Flex gap={4} flexWrap="wrap">
             {data?.militaries.map(
               (military) =>
                 military.id && (
@@ -176,7 +185,7 @@ export default function CitizenDetailsPage() {
           <Heading size="md" mt={4} ml={2}>
             История учета:
           </Heading>
-          <Flex gap={2} flexWrap="wrap" flex="1">
+          <Flex gap={4} flexWrap="wrap" flex="1">
             {data?.records.map(
               (record) =>
                 record.id && (
@@ -191,7 +200,7 @@ export default function CitizenDetailsPage() {
           </Flex>
           {user?.role === "editor" && <AddRecord citizen={data!} />}
         </VStack>
-      </HStack>
+      </Stack>
     </VStack>
   );
 }
