@@ -5,9 +5,14 @@ import {
   HStack,
   Heading,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { Record } from "../types";
 import EditRecord from "./EditRecord";
+import DeleteConfirm from "./DeleteConfirm";
+import { API_ENDPOINTS } from "../api-endpoints";
+import { fetcher } from "../utils/fetcher";
+import { useQueryClient } from "@tanstack/react-query";
 
 const typeMap = {
   registered: "Поставлен",
@@ -23,8 +28,10 @@ export default function RecordCard({
   isEditable: boolean;
   citizen_id: string;
 }) {
+  const queryClient = useQueryClient();
+  const toast = useToast();
   return (
-    <Card maxW="200px">
+    <Card maxW="300px">
       <CardHeader>
         <HStack justifyContent="space-between">
           <Heading
@@ -33,7 +40,39 @@ export default function RecordCard({
           >
             {typeMap[record.type]}
           </Heading>
-          {isEditable && <EditRecord record={record} citizen_id={citizen_id} />}
+          {isEditable && (
+            <HStack>
+              <EditRecord record={record} citizen_id={citizen_id} />
+              <DeleteConfirm
+                isIconOnly
+                onConfirm={async () => {
+                  const url =
+                    import.meta.env.VITE_API_URL +
+                    API_ENDPOINTS.DELETE_RECORD(record.id.toString());
+
+                  const res = await fetcher(url, {
+                    method: "DELETE",
+                  });
+                  if (!res.ok)
+                    return toast({
+                      position: "bottom-right",
+                      title: "Ошибка при выполнении запроса",
+                      status: "error",
+                      isClosable: true,
+                    });
+                  toast({
+                    position: "bottom-right",
+                    title: "Запрос выполнен успешно",
+                    status: "success",
+                    isClosable: true,
+                  });
+                  queryClient.invalidateQueries({
+                    queryKey: ["citizen", citizen_id.toString()],
+                  });
+                }}
+              />
+            </HStack>
+          )}
         </HStack>
       </CardHeader>
       <CardBody>

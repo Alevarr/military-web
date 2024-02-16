@@ -24,12 +24,12 @@ export default function MilitaryCard({
   const queryClient = useQueryClient();
   const toast = useToast();
   return (
-    <Card>
+    <Card maxW="300px">
       <CardHeader>
         <HStack justifyContent="space-between">
           <Heading size="md">{military.military_serial}</Heading>
           {isEditable && (
-            <>
+            <HStack>
               <EditMilitary military={military} />
               <DeleteConfirm
                 isIconOnly
@@ -59,7 +59,7 @@ export default function MilitaryCard({
                   });
                 }}
               />
-            </>
+            </HStack>
           )}
         </HStack>
       </CardHeader>
