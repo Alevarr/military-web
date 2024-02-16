@@ -6,14 +6,18 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  useTheme,
 } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import useUser from "../hooks/useUser";
 import Cookies from "js-cookie";
+import { BsFillHouseDoorFill } from "react-icons/bs";
 
 export default function NavBar() {
   const user = useUser();
   const navigate = useNavigate();
+  const theme = useTheme();
+  const teal500 = theme.colors.teal[500];
 
   return (
     <HStack
@@ -25,17 +29,26 @@ export default function NavBar() {
       justifyContent="space-between"
       gap={4}
     >
-      <HStack gap={4}>
-        <Link to="/citizens">
-          <Button variant="link" size="lg">
-            Граждане
-          </Button>
+      <HStack gap={12}>
+        <Link to="/">
+          <BsFillHouseDoorFill
+            aria-label="Home Page"
+            color={teal500}
+            size={24}
+          />
         </Link>
-        <Link to="/departments">
-          <Button variant="link" size="lg">
-            Отделения
-          </Button>
-        </Link>
+        <HStack gap={4}>
+          <Link to="/citizens">
+            <Button variant="link" size="lg">
+              Граждане
+            </Button>
+          </Link>
+          <Link to="/departments">
+            <Button variant="link" size="lg">
+              Отделения
+            </Button>
+          </Link>
+        </HStack>
       </HStack>
       {user ? (
         <Menu>
