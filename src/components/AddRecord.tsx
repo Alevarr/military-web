@@ -15,6 +15,9 @@ import {
   useToast,
   Heading,
   Spinner,
+  HStack,
+  Switch,
+  Text,
 } from "@chakra-ui/react";
 import { Controller, useForm } from "react-hook-form";
 import {
@@ -30,6 +33,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import AddButton from "./AddButton";
 import useDepartments from "../hooks/useDepartments";
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import { useState } from "react";
 
 export default function AddRecord({
   citizen,
@@ -49,6 +53,8 @@ export default function AddRecord({
     resolver: zodResolver(RecordSchema),
   });
 
+  const [isSwitchChecked, setIsSwitchChecked] = useState(false);
+
   const onSubmit = async (data: RecordFormValues) => {
     const extendedData = {
       ...data,
@@ -56,7 +62,11 @@ export default function AddRecord({
       department_id: Number(data.department_id),
     };
 
-    const url = import.meta.env.VITE_API_URL + API_ENDPOINTS.CREATE_RECORD;
+    const url =
+      import.meta.env.VITE_API_URL +
+      (isSwitchChecked
+        ? API_ENDPOINTS.CHECK_RECORD_CONCURRENT_ACCESS
+        : API_ENDPOINTS.CREATE_RECORD);
     const res = await fetcher(url, {
       method: "POST",
       body: JSON.stringify(extendedData),
@@ -153,6 +163,14 @@ export default function AddRecord({
                     )}
                   />
                 </FormControl>
+                <HStack w="100%" alignItems="center">
+                  <Switch
+                    colorScheme="teal"
+                    isChecked={isSwitchChecked}
+                    onChange={() => setIsSwitchChecked(!isSwitchChecked)}
+                  />
+                  <Text>Проверка одновременного доступа</Text>
+                </HStack>
                 <Button type="submit">Готово</Button>
               </VStack>
             </form>

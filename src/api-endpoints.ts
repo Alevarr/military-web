@@ -20,6 +20,9 @@ export const API_ENDPOINTS = {
   /** @POST Create new record */
   CREATE_RECORD: "/api/records",
 
+  /** @POST Simulate two clients trying to post the same record */
+  CHECK_RECORD_CONCURRENT_ACCESS: `/api/test-concurrent`,
+
   /** @PUT Edit citizen by id */
   EDIT_CITIZEN: (id: string) => `/api/citizens/${id}`,
 
