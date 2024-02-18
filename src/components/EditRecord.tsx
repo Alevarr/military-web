@@ -107,7 +107,7 @@ export default function EditRecord({ record, citizen_id, ...props }: Props) {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Добавить Гражданина</ModalHeader>
+          <ModalHeader>Редактировать запись об учете</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <form onSubmit={handleSubmit(onSubmit)}>

@@ -92,7 +92,7 @@ export default function EditCitizen({
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Добавить Гражданина</ModalHeader>
+          <ModalHeader>Рекдактировать Данные Гражданина</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <form onSubmit={handleSubmit(onSubmit)}>
