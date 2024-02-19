@@ -1,4 +1,4 @@
-# Military-Web
+# military-web
 
 ## Description
 
