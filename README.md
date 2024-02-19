@@ -20,6 +20,9 @@
 3. Install dependencies:
 `npm install`
 
+4. Set up environment variables:
+In the root of profect create file .env.local and paste `VITE_API_URL="http://localhost:3000"` into it
+
 
 ## Usage
 
