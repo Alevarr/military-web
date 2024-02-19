@@ -12,10 +12,10 @@
 ## Installation
 
 1. Clone the repository:
-`git clone https://github.com/yourusername/yourrepository.git](https://github.com/Alevarr/military-web.git`
+`git clone https://github.com/Alevarr/military-web.git`
 
 2. Navigate to the project directory:
-`cd yourrepository`
+`cd military-web`
 
 3. Install dependencies:
 `npm install`
