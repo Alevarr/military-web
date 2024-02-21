@@ -111,7 +111,7 @@ export default function AddRecord({
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Добавить Гражданина</ModalHeader>
+          <ModalHeader>Добавить Запись об Учете</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <form onSubmit={handleSubmit(onSubmit)}>
