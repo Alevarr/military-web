@@ -149,7 +149,6 @@ export default function AddCitizen({ ...props }: ButtonProps) {
                 <FormControl
                   id="deferement_end_date"
                   isInvalid={!!errors.deferment_end_date}
-                  isRequired
                 >
                   <FormLabel htmlFor="deferement_end_date">
                     Дата окончания отсрочки
@@ -158,7 +157,6 @@ export default function AddCitizen({ ...props }: ButtonProps) {
                     name="deferment_end_date"
                     control={control}
                     defaultValue={undefined}
-                    rules={{ required: "Exemption end date is required" }}
                     render={({ field }) => (
                       <SingleDatepicker
                         name="deferment_end_date"
